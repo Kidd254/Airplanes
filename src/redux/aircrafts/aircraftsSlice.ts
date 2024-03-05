@@ -1,6 +1,7 @@
 // aircraftsSlice.ts
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { SerializedError } from '@reduxjs/toolkit';
 
 interface Aircraft {
     manufacturer: string;
@@ -44,24 +45,24 @@ export const fetchAircrafts = createAsyncThunk('aircrafts/fetchAircrafts', async
 });
 
 const aircraftsSlice = createSlice({
-  name: 'aircrafts',
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchAircrafts.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchAircrafts.fulfilled, (state, action: PayloadAction<Aircraft[]>) => {
-        state.loading = false;
-        state.data = action.payload;
-      })
-      .addCase(fetchAircrafts.rejected, (state, action: PayloadAction<string>) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
-  },
+    name: 'aircrafts',
+    initialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchAircrafts.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchAircrafts.fulfilled, (state, action: PayloadAction<Aircraft[]>) => {
+                state.loading = false;
+                state.data = action.payload;
+            })
+            .addCase(fetchAircrafts.rejected, (state, action: PayloadAction<unknown, string, { arg: string; requestId: string; requestStatus: "rejected"; aborted: boolean; condition: boolean; } & ({ rejectedWithValue: true; } | ({ rejectedWithValue: false; } & {})), SerializedError>) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            });
+    },
 });
 
 export default aircraftsSlice.reducer;

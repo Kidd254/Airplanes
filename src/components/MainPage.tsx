@@ -9,7 +9,7 @@ const MainPage: React.FC = () => {
   const { data, loading, error } = useSelector((state: RootState) => state.aircrafts);
 
   useEffect(() => {
-    dispatch(fetchAircrafts('your_api_key'));
+    dispatch(fetchAircrafts('D5q8niB700jxi57PqkJC6Q==D1xzw7ooFWM5nyYD'));
   }, [dispatch]);
 
   // Render component based on data, loading, and error states
