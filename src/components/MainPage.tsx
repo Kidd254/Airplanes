@@ -1,58 +1,95 @@
-// YourComponent.tsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAircrafts } from '../redux/aircrafts/aircraftsSlice';
 import { RootState } from '../redux/store';
 
 const MainPage: React.FC = () => {
   const dispatch = useDispatch();
-  const { data, loading, error } = useSelector(
-    (state: RootState) => state.aircrafts
-  );
+  const { data, loading } = useSelector((state: RootState) => state.aircrafts);
+  const [searchInput, setSearchInput] = useState('');
 
   useEffect(() => {
+    const apiKey = 'D5q8niB700jxi57PqkJC6Q==D1xzw7ooFWM5nyYD';
+
+    // Fetch all aircrafts initially
     dispatch(
       fetchAircrafts({
-        api_key: 'D5q8niB700jxi57PqkJC6Q==D1xzw7ooFWM5nyYD',
-        manufacturer: '', // Set to an empty string to fetch all manufacturers
-        model: '' // Set to an empty string to fetch all models
+        api_key: apiKey,
+        manufacturer: 'Gulfstream',
+        model: ''
       }) as any
     );
   }, [dispatch]);
 
-  // Render component based on data, loading, and error states
+  const handleSearchInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newSearchInput = event.target.value;
+    setSearchInput(newSearchInput);
+
+    // Fetch aircrafts based on the search input only if the search input is not empty
+    if (newSearchInput.trim() !== '') {
+      const apiKey = 'D5q8niB700jxi57PqkJC6Q==D1xzw7ooFWM5nyYD';
+      dispatch(
+        fetchAircrafts({
+          api_key: apiKey,
+          manufacturer: newSearchInput,
+          model: ''
+        }) as any
+      );
+    } else {
+      // If the search input is empty, fetch all aircrafts again
+      const apiKey = 'D5q8niB700jxi57PqkJC6Q==D1xzw7ooFWM5nyYD';
+      dispatch(
+        fetchAircrafts({
+          api_key: apiKey,
+          manufacturer: '',
+          model: ''
+        }) as any
+      );
+    }
+  };
+
   return (
     <div>
       <h1>Aircraft Details</h1>
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search Aircraft by Manufacturer"
+          value={searchInput}
+          onChange={handleSearchInputChange}
+        />
+      </div>
+
       {loading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-      {data.map((aircraft, index) => (
-        <div
-          key={index}
-          style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}
-        >
-          <h3>{aircraft.model}</h3>
-          <p>Manufacturer: {aircraft.manufacturer}</p>
-          <p>Engine Type: {aircraft.engine_type}</p>
-          <p>
-            Speed Range: {aircraft.min_speed} knots - {aircraft.max_speed} knots
-          </p>
-          <p>
-            Range: {aircraft.min_range} nautical miles - {aircraft.max_range}{' '}
-            nautical miles
-          </p>
-          <p>
-            Length: {aircraft.min_length} feet - {aircraft.max_length} feet
-          </p>
-          <p>
-            Height: {aircraft.min_height} feet - {aircraft.max_height} feet
-          </p>
-          <p>
-            Wingspan: {aircraft.min_wingspan} feet - {aircraft.max_wingspan}{' '}
-            feet
-          </p>
-        </div>
-      ))}
+
+      {data.length > 0 ? (
+        data.map((aircraft, index) => (
+          <div key={index} className="aircraft-card">
+            <h3>{aircraft.model}</h3>
+            <p>Manufacturer: {aircraft.manufacturer}</p>
+            <p>Engine Type: {aircraft.engine_type}</p>
+            <p>Engine Thrust: {aircraft.engine_thrust_lb_ft}</p>
+            <p>Max Speed: {aircraft.max_speed_knots} knots</p>
+            <p>Cruise Speed: {aircraft.cruise_speed_knots} knots</p>
+            <p>Ceiling: {aircraft.ceiling_ft} feet</p>
+            <p>
+              Rate of Climb: {aircraft.rate_of_climb_ft_per_min} feet per minute
+            </p>
+            <p>Takeoff Ground Run: {aircraft.takeoff_ground_run_ft} feet</p>
+            <p>Landing Ground Roll: {aircraft.landing_ground_roll_ft} feet</p>
+            <p>Gross Weight: {aircraft.gross_weight_lbs} lbs</p>
+            <p>Empty Weight: {aircraft.empty_weight_lbs} lbs</p>
+            <p>Length: {aircraft.length_ft} feet</p>
+            <p>Height: {aircraft.height_ft} feet</p>
+            <p>Wingspan: {aircraft.wing_span_ft} feet</p>
+            <p>Range: {aircraft.range_nautical_miles} nautical miles</p>
+          </div>
+        ))
+      ) : (
+        <p>No matching results</p>
+      )}
     </div>
   );
 };
