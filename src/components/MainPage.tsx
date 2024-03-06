@@ -70,36 +70,29 @@ const MainPage: React.FC = () => {
 
         {data.length > 0 ? (
           data.map((aircraft, index) => (
-            <div
-              key={index}
-              className="bg-blue-50 p-6 mb-6 rounded-md shadow-md"
-            >
-              <h3 className="text-2xl font-semibold mb-4">{aircraft.model}</h3>
-              <p>
-                <span className="font-bold">Manufacturer:</span>{' '}
-                {aircraft.manufacturer}
-              </p>
-              <p className="mt-2">Engine Type: {aircraft.engine_type}</p>
-              <p>Engine Thrust: {aircraft.engine_thrust_lb_ft}</p>
-              <p>Max Speed: {aircraft.max_speed_knots} knots</p>
-              <p>Cruise Speed: {aircraft.cruise_speed_knots} knots</p>
-              <p>Ceiling: {aircraft.ceiling_ft} feet</p>
-              <p>
-                Rate of Climb: {aircraft.rate_of_climb_ft_per_min} feet per
-                minute
-              </p>
-              <p>Takeoff Ground Run: {aircraft.takeoff_ground_run_ft} feet</p>
-              <p>Landing Ground Roll: {aircraft.landing_ground_roll_ft} feet</p>
-              <p>Gross Weight: {aircraft.gross_weight_lbs} lbs</p>
-              <p>Empty Weight: {aircraft.empty_weight_lbs} lbs</p>
-              <p>Length: {aircraft.length_ft} feet</p>
-              <p>Height: {aircraft.height_ft} feet</p>
-              <p>Wingspan: {aircraft.wing_span_ft} feet</p>
-              <p>Range: {aircraft.range_nautical_miles} nautical miles</p>
-            </div>
-          ))
-        ) : (
-          <p className="text-center">No matching results</p>
+            <div key={index} className="bg-blue-50 p-6 mb-6 rounded-md shadow-md">
+            <h3 className="text-2xl font-semibold text-blue-900 mb-4">{aircraft.model}</h3>
+            <p className="text-gray-700">
+              <span className="font-bold">Manufacturer:</span> {aircraft.manufacturer}
+            </p>
+            <p className="text-gray-700 mt-2">Engine Type: {aircraft.engine_type}</p>
+            <p className="text-gray-700">Engine Thrust: {aircraft.engine_thrust_lb_ft}</p>
+            <p className="text-gray-700">Max Speed: {aircraft.max_speed_knots} knots</p>
+            <p className="text-gray-700">Cruise Speed: {aircraft.cruise_speed_knots} knots</p>
+            <p className="text-gray-700">Ceiling: {aircraft.ceiling_ft} feet</p>
+            <p className="text-gray-700">Rate of Climb: {aircraft.rate_of_climb_ft_per_min} feet per minute</p>
+            <p className="text-gray-700">Takeoff Ground Run: {aircraft.takeoff_ground_run_ft} feet</p>
+            <p className="text-gray-700">Landing Ground Roll: {aircraft.landing_ground_roll_ft} feet</p>
+            <p className="text-gray-700">Gross Weight: {aircraft.gross_weight_lbs} lbs</p>
+            <p className="text-gray-700">Empty Weight: {aircraft.empty_weight_lbs} lbs</p>
+            <p className="text-gray-700">Length: {aircraft.length_ft} feet</p>
+            <p className="text-gray-700">Height: {aircraft.height_ft} feet</p>
+            <p className="text-gray-700">Wingspan: {aircraft.wing_span_ft} feet</p>
+            <p className="text-gray-700">Range: {aircraft.range_nautical_miles} nautical miles</p>
+          </div>
+        ))
+      ) : (
+        <p className="text-center text-gray-600">No matching results</p>
         )}
       </div>
     </div>
