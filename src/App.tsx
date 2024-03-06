@@ -7,7 +7,6 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
-      <Route path="home" element={<MainPage />} />
     </Routes>
   );
 }
