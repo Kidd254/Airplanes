@@ -6,16 +6,19 @@ interface Aircraft {
   manufacturer: string;
   model: string;
   engine_type: string;
-  min_speed: number;
-  max_speed: number;
-  min_range: number;
-  max_range: number;
-  min_length: number;
-  max_length: number;
-  min_height: number;
-  max_height: number;
-  min_wingspan: number;
-  max_wingspan: number;
+  engine_thrust_lb_ft?: string; // Optional field
+  max_speed_knots?: string; // Optional field
+  cruise_speed_knots?: string; // Optional field
+  ceiling_ft?: string; // Optional field
+  rate_of_climb_ft_per_min?: string; // Optional field
+  takeoff_ground_run_ft?: string; // Optional field
+  landing_ground_roll_ft?: string; // Optional field
+  gross_weight_lbs?: string; // Optional field
+  empty_weight_lbs?: string; // Optional field
+  length_ft?: string; // Optional field
+  height_ft?: string; // Optional field
+  wing_span_ft?: string; // Optional field
+  range_nautical_miles?: string; // Optional field
 }
 
 interface AircraftsState {
@@ -36,7 +39,7 @@ export const fetchAircrafts = createAsyncThunk(
     {
       api_key,
       manufacturer,
-      model
+      model,
     }: { api_key: string; manufacturer: string; model: string },
     thunkAPI
   ) => {
@@ -44,15 +47,20 @@ export const fetchAircrafts = createAsyncThunk(
       const apiUrl = `https://api.api-ninjas.com/v1/aircraft?manufacturer=${manufacturer}&model=${model}`;
       const response = await axios.get(apiUrl, {
         headers: {
-          'X-Api-Key': api_key
-        }
+          'X-Api-Key': api_key,
+        },
       });
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
+      console.error('API request failed:', error);
+      console.log('Request config:', error.config);
+      console.log('Response data:', error.response?.data);
       throw error;
     }
   }
 );
+
+
 
 const aircraftsSlice = createSlice({
   name: 'aircrafts',
