@@ -4,7 +4,7 @@ import MainPage from '../components/MainPage';
 
 const Home: React.FC = () => (
   <Layout>
-    <section id="rockets">
+    <section>
       <div className="container">
         <MainPage />
       </div>
