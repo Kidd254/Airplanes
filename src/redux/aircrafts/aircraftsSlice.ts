@@ -1,5 +1,5 @@
 // aircraftsSlice.ts
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 interface Aircraft {
@@ -64,18 +64,14 @@ const aircraftsSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(
-        fetchAircrafts.fulfilled,
-        (state, action: PayloadAction<Aircraft[]>) => {
-          state.loading = false;
-          state.data = action.payload;
-        }
-      )
+      .addCase(fetchAircrafts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+      })
       .addCase(fetchAircrafts.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string;
-      }
-      );
+        state.error = action.error.message || 'An error occurred';
+      });
   }
 });
 
