@@ -1,7 +1,7 @@
 <a name="readme-top"></a>
 
 <div align="center">
-  <h1><b>Blog App | Ruby on Rails Project</b></h1>
+  <h1><b>Rick_Morty_Mobile_App</b></h1>
 </div>
 
 <!-- TABLE OF CONTENTS -->
